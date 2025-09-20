@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,9 +15,10 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f7fa;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             color: #333;
             overflow-x: hidden;
+            min-height: 100vh;
         }
 
         .overlay {
@@ -38,25 +40,37 @@
         /* Sidebar Styles */
         .sidebar {
             width: 280px;
-            background: #2c3e50;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
             color: white;
             position: fixed;
             height: 100vh;
             left: 0;
             top: 0;
             transform: translateX(0);
-            transition: transform 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             z-index: 1000;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
         }
 
         .sidebar.collapsed {
             transform: translateX(-280px);
         }
 
+        .sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.1) 0%, rgba(155, 89, 182, 0.1) 100%);
+            pointer-events: none;
+        }
+
         .sidebar-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid #34495e;
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             align-items: center;
             gap: 1rem;
@@ -64,43 +78,47 @@
         }
 
         .logo {
-            width: 40px;
-            height: 40px;
-            background: #3498db;
-            border-radius: 8px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
             color: white;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
         }
 
         .sidebar-header h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
+            font-size: 1.6rem;
+            font-weight: 700;
             color: #ecf0f1;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .menu-toggle {
             position: absolute;
             right: 1rem;
-            background: none;
+            background: rgba(255, 255, 255, 0.1);
             border: none;
             color: #bdc3c7;
             font-size: 1.2rem;
             cursor: pointer;
             padding: 0.5rem;
-            border-radius: 4px;
+            border-radius: 8px;
             transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
 
         .menu-toggle:hover {
-            background: #34495e;
+            background: rgba(255, 255, 255, 0.2);
             color: white;
+            transform: scale(1.1);
         }
 
         .sidebar-menu {
-            padding: 1rem 0;
+            padding: 1.5rem 0;
         }
 
         .nav-list {
@@ -108,105 +126,69 @@
         }
 
         .nav-item {
-            margin: 0.25rem 0;
+            margin: 0.5rem 0;
         }
 
         .nav-link {
             display: flex;
             align-items: center;
-            padding: 0.875rem 1.5rem;
-            color: #bdc3c7;
+            padding: 1rem 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             border-left: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .nav-link:hover::before {
+            left: 100%;
         }
 
         .nav-link:hover {
-            background: #34495e;
+            background: rgba(255, 255, 255, 0.1);
             color: #ecf0f1;
             border-left-color: #3498db;
+            transform: translateX(5px);
+            box-shadow: inset 0 0 20px rgba(52, 152, 219, 0.2);
         }
 
         .nav-link.active {
-            background: #34495e;
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.2), rgba(155, 89, 182, 0.2));
             color: #3498db;
             border-left-color: #3498db;
+            box-shadow: inset 0 0 20px rgba(52, 152, 219, 0.3);
         }
 
         .nav-link i {
-            width: 20px;
-            margin-right: 0.75rem;
-            font-size: 1.1rem;
+            width: 25px;
+            margin-right: 1rem;
+            font-size: 1.2rem;
+            text-align: center;
         }
 
         .nav-link span {
-            font-weight: 500;
-        }
-
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            margin-left: 280px;
-            padding: 2rem;
-            transition: margin-left 0.3s ease;
-        }
-
-        .main-content.expanded {
-            margin-left: 0;
-        }
-
-        .header {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-            margin-bottom: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .header-title {
-            font-size: 1.75rem;
             font-weight: 600;
-            color: #2c3e50;
+            letter-spacing: 0.5px;
         }
 
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            background: #3498db;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-        }
-
-        .user-details h4 {
-            color: #2c3e50;
-            font-weight: 600;
-        }
-
-        .user-details p {
-            color: #7f8c8d;
-            font-size: 0.875rem;
-        }
-
-        /* Logout Button */
         .logout-btn {
-            background: #e74c3c;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
             color: white;
             border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
             font-weight: 600;
             cursor: pointer;
             display: flex;
@@ -214,129 +196,262 @@
             gap: 0.5rem;
             font-size: 0.9rem;
             transition: all 0.3s ease;
-            margin-left: 1rem;
+            margin: 1rem 1.5rem;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
         }
 
         .logout-btn:hover {
-            background: #c0392b;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
+            background: linear-gradient(135deg, #c0392b, #a93226);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
         }
 
-        .header-actions {
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .main-content.expanded {
+            margin-left: 0;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2c3e50;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-info {
             display: flex;
             align-items: center;
             gap: 1rem;
         }
 
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .user-details h4 {
+            color: #2c3e50;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .user-details p {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
         /* Patient Info Banner */
         .patient-info {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            padding: 1.5rem;
-            border-radius: 12px;
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 50%, #8e44ad 100%);
+            padding: 2rem;
+            border-radius: 20px;
             color: white;
             margin-bottom: 2rem;
             display: flex;
             align-items: center;
-            gap: 1.5rem;
+            gap: 2rem;
             flex-wrap: wrap;
+            box-shadow: 0 12px 40px rgba(52, 152, 219, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .patient-info::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(180deg); }
         }
 
         .patient-avatar {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             background: rgba(255, 255, 255, 0.2);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
+            font-size: 2.5rem;
             color: white;
+            font-weight: 700;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .patient-details {
+            flex: 1;
+            z-index: 1;
         }
 
         .patient-details h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .patient-details p {
-            opacity: 0.9;
-            margin-bottom: 0.25rem;
+            opacity: 0.95;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: 500;
         }
 
         .device-badge {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.875rem;
-            margin-top: 0.5rem;
+            background: rgba(255, 255, 255, 0.25);
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            margin-top: 1rem;
             display: inline-block;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         /* Dashboard Cards */
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
             margin-bottom: 2rem;
         }
 
         .dashboard-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3498db, #9b59b6, #e74c3c, #f39c12);
+            background-size: 400% 100%;
+            animation: gradient-shift 3s ease infinite;
+        }
+
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
         .dashboard-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
         }
 
         .card-header {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: space-between;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         .card-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             color: white;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
 
-        .card-icon.device { background: #27ae60; }
-        .card-icon.location { background: #e74c3c; }
-        .card-icon.battery { background: #f39c12; }
-        .card-icon.activity { background: #9b59b6; }
-        .card-icon.emergency { background: #e74c3c; }
-        .card-icon.night { background: #f1c40f; }
+        .card-icon.device { 
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+        }
+        .card-icon.location { 
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+        .card-icon.battery { 
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+        }
+        .card-icon.activity { 
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        }
+        .card-icon.emergency { 
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+        .card-icon.night { 
+            background: linear-gradient(135deg, #f1c40f, #f39c12);
+        }
 
         .card-title {
-            font-size: 0.875rem;
+            font-size: 0.9rem;
             color: #7f8c8d;
             text-transform: uppercase;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-
-        .card-value {
-            font-size: 2rem;
             font-weight: 700;
-            color: #2c3e50;
+            letter-spacing: 1px;
             margin-bottom: 0.5rem;
         }
 
+        .card-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
         .card-trend {
-            font-size: 0.875rem;
+            font-size: 0.95rem;
             color: #27ae60;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .card-trend.warning {
@@ -347,112 +462,109 @@
             color: #e74c3c;
         }
 
+        .card-trend i {
+            font-size: 1.1rem;
+        }
+
         /* Status Indicators */
         .status-indicator {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
+            gap: 0.75rem;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .status-indicator.online {
-            background: rgba(39, 174, 96, 0.1);
+            background: linear-gradient(135deg, rgba(39, 174, 96, 0.15), rgba(46, 204, 113, 0.15));
             color: #27ae60;
+            border: 2px solid rgba(39, 174, 96, 0.3);
         }
 
         .status-indicator.offline {
-            background: rgba(231, 76, 60, 0.1);
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.15), rgba(192, 57, 43, 0.15));
             color: #e74c3c;
+            border: 2px solid rgba(231, 76, 60, 0.3);
         }
 
         .status-indicator.walking {
-            background: rgba(52, 152, 219, 0.1);
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.15), rgba(41, 128, 185, 0.15));
             color: #3498db;
+            border: 2px solid rgba(52, 152, 219, 0.3);
         }
 
         .status-indicator.stationary {
-            background: rgba(149, 165, 166, 0.1);
+            background: linear-gradient(135deg, rgba(149, 165, 166, 0.15), rgba(127, 140, 141, 0.15));
             color: #95a5a6;
-        }
-
-        /* Emergency Button Styles */
-        .emergency-controls {
-            margin-top: 1rem;
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .emergency-btn {
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-        }
-
-        .emergency-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-emergency {
-            background: #e74c3c;
-            color: white;
-        }
-
-        .btn-emergency:hover {
-            background: #c0392b;
-        }
-
-        .btn-contact {
-            background: #3498db;
-            color: white;
-        }
-
-        .btn-contact:hover {
-            background: #2980b9;
+            border: 2px solid rgba(149, 165, 166, 0.3);
         }
 
         /* Activity Feed */
         .activity-section {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
             margin-bottom: 2rem;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .section-title {
-            font-size: 1.25rem;
-            font-weight: 600;
+            font-size: 1.5rem;
+            font-weight: 700;
             color: #2c3e50;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title i {
+            font-size: 1.3rem;
+            color: #3498db;
         }
 
         .activity-list {
             list-style: none;
-            max-height: 400px;
+            max-height: 500px;
             overflow-y: auto;
+            padding-right: 1rem;
+        }
+
+        .activity-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .activity-list::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 3px;
+        }
+
+        .activity-list::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #3498db, #9b59b6);
+            border-radius: 3px;
         }
 
         .activity-item {
-            padding: 1rem 0;
-            border-bottom: 1px solid #ecf0f1;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
             display: flex;
-            align-items: center;
-            gap: 1rem;
+            align-items: flex-start;
+            gap: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .activity-item:hover {
+            background: rgba(52, 152, 219, 0.05);
+            border-radius: 12px;
+            padding-left: 1rem;
+            padding-right: 1rem;
         }
 
         .activity-item:last-child {
@@ -460,14 +572,16 @@
         }
 
         .activity-icon {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
+            font-size: 1.2rem;
             color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            flex-shrink: 0;
         }
 
         .activity-content {
@@ -475,20 +589,23 @@
         }
 
         .activity-title {
-            font-weight: 600;
+            font-weight: 700;
             color: #2c3e50;
-            margin-bottom: 0.25rem;
-        }
-
-        .activity-time {
-            font-size: 0.875rem;
-            color: #7f8c8d;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
         }
 
         .activity-details {
-            font-size: 0.8rem;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .activity-time {
+            font-size: 0.85rem;
             color: #95a5a6;
-            margin-bottom: 0.25rem;
+            font-weight: 600;
         }
 
         /* Tab Content */
@@ -498,6 +615,12 @@
 
         .tab-content.active {
             display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Responsive */
@@ -512,6 +635,7 @@
 
             .main-content {
                 margin-left: 0;
+                padding: 1rem;
             }
 
             .overlay.show {
@@ -520,26 +644,41 @@
 
             .dashboard-grid {
                 grid-template-columns: 1fr;
+                gap: 1.5rem;
             }
 
             .patient-info {
                 flex-direction: column;
                 text-align: center;
+                gap: 1.5rem;
             }
 
             .header {
                 flex-direction: column;
                 gap: 1rem;
                 text-align: center;
+                padding: 1.5rem;
             }
 
-            .header-actions {
-                justify-content: center;
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
             }
 
-            .emergency-controls {
-                justify-content: center;
+            .card-icon {
+                align-self: flex-end;
             }
+        }
+
+        /* Additional animations */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .status-indicator.online i {
+            animation: pulse 2s ease-in-out infinite;
         }
     </style>
 </head>
@@ -631,14 +770,6 @@
                             <i class="fas fa-walking"></i> Smart Stick #<span id="deviceId">GL001</span> - <span id="deviceStatus">Connected</span>
                         </div>
                     </div>
-                    <div class="emergency-controls">
-                        <button class="emergency-btn btn-emergency" id="emergencyBtn">
-                            <i class="fas fa-exclamation-triangle"></i> EMERGENCY ALERT
-                        </button>
-                        <button class="emergency-btn btn-contact" id="contactBtn">
-                            <i class="fas fa-phone"></i> CONTACT CAREGIVER
-                        </button>
-                    </div>
                 </div>
 
                 <!-- Status Cards -->
@@ -666,7 +797,7 @@
                         <div class="card-header">
                             <div>
                                 <div class="card-title">Current Location</div>
-                                <div class="card-value" style="font-size: 1.2rem;" id="currentLocation">Ayala Center</div>
+                                <div class="card-value" style="font-size: 1.4rem;" id="currentLocation">Ayala Center</div>
                                 <div class="card-trend">
                                     <i class="fas fa-clock"></i> Updated <span id="locationUpdate">10 seconds ago</span>
                                 </div>
@@ -765,35 +896,30 @@
             <div class="tab-content" id="profile">
                 <div class="activity-section">
                     <h2 class="section-title">My Profile</h2>
-                    <p>Profile management interface will be implemented here...</p>
                 </div>
             </div>
 
             <div class="tab-content" id="history">
                 <div class="activity-section">
                     <h2 class="section-title">History</h2>
-                    <p>Historical data and analytics will be displayed here...</p>
                 </div>
             </div>
 
             <div class="tab-content" id="location">
                 <div class="activity-section">
                     <h2 class="section-title">Location Tracking</h2>
-                    <p>Detailed location tracking and route history will be displayed here...</p>
                 </div>
             </div>
 
             <div class="tab-content" id="sensor">
                 <div class="activity-section">
                     <h2 class="section-title">Sensor Data</h2>
-                    <p>Real-time sensor readings and analytics will be displayed here...</p>
                 </div>
             </div>
 
             <div class="tab-content" id="alerts">
                 <div class="activity-section">
                     <h2 class="section-title">Safety Alerts</h2>
-                    <p>Alert history and safety notifications will be displayed here...</p>
                 </div>
             </div>
         </main>
@@ -1137,16 +1263,6 @@
                 const tabId = this.getAttribute('data-tab');
                 document.getElementById(tabId).classList.add('active');
             });
-        });
-
-        // Emergency button
-        document.getElementById('emergencyBtn').addEventListener('click', function() {
-            alert('🚨 EMERGENCY ALERT SENT!\nSMS and notifications dispatched to emergency contacts.');
-        });
-
-        // Contact caregiver button
-        document.getElementById('contactBtn').addEventListener('click', function() {
-            alert('📞 Calling caregiver: Kevin Keith P. Selisana...');
         });
     </script>
 </body>
