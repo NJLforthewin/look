@@ -1,5 +1,5 @@
 <?php
-include '../connect.php';
+include 'connect.php';
 
 function insertGPSData($device_id, $latitude, $longitude) {
     global $conn;
@@ -27,9 +27,5 @@ function insertGPSData($device_id, $latitude, $longitude) {
     }
 }
 
-// Test the function (optional - remove after testing)
-if ($_GET['test'] == '1') {
-    $result = insertGPSData(1, 14.5995, 120.9842);
-    echo $result ? "GPS data inserted successfully!" : "Error inserting GPS data";
-}
+// Test endpoint removed for security
 ?>

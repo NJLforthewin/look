@@ -10,11 +10,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $phoneNumber = trim($_POST['phoneNumber']);
         $password = $_POST['password'];
         
-        // DEBUG INFO to console
-        echo "<script>console.log('DEBUG INFO:');</script>";
-        echo "<script>console.log('Phone Number: " . addslashes($phoneNumber) . "');</script>";
-        echo "<script>console.log('Password: " . addslashes($password) . "');</script>";
-        
         if(empty($phoneNumber) || empty($password)) {
             $errorMsg = "Please fill in all fields";
         } else {
@@ -26,33 +21,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt->execute();
                 $result = $stmt->get_result();
                 
-                // DEBUG INFO to console
-                echo "<script>console.log('Records found: " . $result->num_rows . "');</script>";
-                
                 if($result->num_rows > 0){
                     $row = $result->fetch_assoc();
                     
-                    // DEBUG INFO to console
-                    echo "<script>console.log('Database password hash: " . addslashes($row['password']) . "');</script>";
-                    echo "<script>console.log('is_active: " . $row['is_active'] . "');</script>";
-                    $verifyResult = password_verify($password, $row['password']) ? 'TRUE' : 'FALSE';
-                    echo "<script>console.log('Password verify result: " . $verifyResult . "');</script>";
-                    
-                    // ADDITIONAL DEBUGGING TESTS
-                    echo "<script>console.log('=== DIRECT TESTS ===');</script>";
-                    
                     if(password_verify($password, $row['password'])){
+                        // Regenerate session ID for security
+                        session_regenerate_id(true);
+                        
                         $_SESSION['contact_id'] = $row['contact_id'];
                         $_SESSION['caregiver_name'] = $row['name'];
                         $_SESSION['phone_number'] = $row['phone_number'];
                         
-                        $successMsg = "Login successful! Redirecting...";
-                        
-                        echo "<script>
-                            setTimeout(function() {
-                                window.location.href = '../dashboard/index.php';
-                            }, 2000);
-                        </script>";
+                        // Redirect via PHP header instead of JavaScript
+                        header("Location: ../dashboard/index.php");
+                        exit();
                     } else {
                         $errorMsg = "Incorrect password!";
                     }

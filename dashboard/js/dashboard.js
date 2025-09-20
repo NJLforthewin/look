@@ -13,7 +13,7 @@ class GabayLakadDashboard {
     }
 
     loadDashboardData() {
-        fetch('../get_dashboard_data.php')
+        fetch('/get_dashboard_data.php')
             .then(response => response.json())
             .then(data => {
                 if (data.success) {

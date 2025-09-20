@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../connect.php';
+include 'connect.php';
 
 header('Content-Type: application/json');
 
@@ -13,8 +13,8 @@ if (!isset($_SESSION['contact_id'])) {
 $contact_id = $_SESSION['contact_id'];
 
 try {
-    // Get caregiver information
-    $caregiver_stmt = $conn->prepare("SELECT * FROM contact WHERE contact_id = ?");
+    // Get caregiver information (exclude password)
+    $caregiver_stmt = $conn->prepare("SELECT contact_id, name, phone_number, is_active, created_at, updated_at FROM contact WHERE contact_id = ?");
     $caregiver_stmt->bind_param("i", $contact_id);
     $caregiver_stmt->execute();
     $caregiver_result = $caregiver_stmt->get_result();
