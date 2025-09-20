@@ -1,22 +1,7 @@
 <?php
-// SQLite database connection for Replit environment
-$db_path = __DIR__ . '/gabaylakad_db.sqlite';
-
-try {
-    // Use SQLite with PDO
-    $pdo = new PDO("sqlite:$db_path");
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-    
-    // Create a mysqli-compatible wrapper for existing code
-    $conn = new SQLiteConnection($pdo);
-} catch(PDOException $e) {
-    die("Failed to connect to database: " . $e->getMessage());
-}
-
 // SQLite wrapper class to maintain mysqli compatibility
 class SQLiteConnection {
-    private $pdo;
+    public $pdo;
     public $insert_id;
     
     public function __construct($pdo) {
@@ -50,6 +35,7 @@ class SQLiteConnection {
 class SQLiteStatement {
     private $stmt;
     private $conn;
+    private $params = [];
     
     public function __construct($stmt, $conn) {
         $this->stmt = $stmt;
@@ -63,7 +49,7 @@ class SQLiteStatement {
     }
     
     public function execute() {
-        $result = $this->stmt->execute($this->params ?? []);
+        $result = $this->stmt->execute($this->params);
         $this->conn->insert_id = $this->conn->pdo->lastInsertId();
         return $result;
     }
@@ -90,5 +76,20 @@ class SQLiteResult {
     public function fetch_assoc() {
         return $this->stmt->fetch(PDO::FETCH_ASSOC);
     }
+}
+
+// SQLite database connection for Replit environment
+$db_path = __DIR__ . '/gabaylakad_db.sqlite';
+
+try {
+    // Use SQLite with PDO
+    $pdo = new PDO("sqlite:$db_path");
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    
+    // Create a mysqli-compatible wrapper for existing code
+    $conn = new SQLiteConnection($pdo);
+} catch(PDOException $e) {
+    die("Failed to connect to database: " . $e->getMessage());
 }
 ?>
