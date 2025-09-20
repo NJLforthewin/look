@@ -14,9 +14,6 @@ Traditional white canes provide limited functionality in dynamic environments. G
 - **🧱 Obstacle Detection**  
   Ultrasonic sensors detect nearby objects and alert the user via vibration or audio warnings.
 
-- **🌧 Wet Surface Detection**  
-  Moisture sensors identify wet or slippery areas, warning the user to proceed with caution and avoid falls.
-
 - **🛰️ GPS Tracking**  
   Automatically logs the user’s current location and sends updates to a secure online caregiver dashboard.
 
@@ -36,7 +33,6 @@ Traditional white canes provide limited functionality in dynamic environments. G
 - **GPS Module (e.g., Neo-6M)**
 - **GSM Module (e.g., SIM800L)**
 - **Light Dependent Resistor (LDR)**
-- **Moisture Sensor (for wet surfaces)**
 - **Speaker / Buzzer (for audio feedback)**
 - **Vibration Motor**
 - **Web Stack: HTML, CSS, PHP, MySQL**
