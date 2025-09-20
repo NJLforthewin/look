@@ -302,7 +302,8 @@ if(isset($_POST['signUp'])){
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                         <i class="fas fa-users text-gray-400"></i>
                                     </div>
-                                    <select id="relationship" name="relationship" required 
+                                    <select id="relationship" name="relationship" r
+                                        equired 
                                             class="form-input pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                             onchange="showOtherRelationship()">
                                         <option value="">Select relationship</option>
